@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+<package name="shopping" extends="struts-default">
+<interceptors>
+<!-- 登陆拦截器 -->
+<interceptor name="logincheck" class="shop.interceptor.LoginIntercept"/>
+</interceptors>
+<!-- 定义全局 result-->
+<global-results>
+<result name="error">error.jsp</result>
+</global-results>
+<action name="Login" class="shop.action.LoginAction">
+ <result name="succeed">HomePage.jsp</result>
+</action>
+<action name="Menu" class="shop.action.MenuAction">
+    <result name="childrensucceed">childrenbook.jsp</result>
+    <result name="youngsuceeed">youngbook.jsp</result>
+</action>
+ <action name="Cart" class="shop.action.CartAction">
+ <result name="cart">cartview.jsp</result>
+ </action>  
+ <action name="GoodsDetail" class="shop.action.GoodsDetailAction">
+     <result name="detailgoods">bookdetail.jsp</result>
+ </action>
+ <action name="Order" class="shop.action.OrderAction">
+     <result name="vieworder">vieworder.jsp</result>
+     <interceptor-ref name="defaultStack"/>
+     <interceptor-ref name="logincheck"/>
+ </action>
+ <action name="Register" class="shop.action.UserAction">
+     <result name="succeed">Registersucceed.jsp</result>
+ </action>
+ <action name="AjaxRe" class="shop.action.AjaxAction">
+     <result name="succeed">ajaxlogin.jsp</result>
+     <result name="error">ajaxerror.jsp</result>
+     <result></result>
+ </action>
+</package>
+<package name="manage" extends="struts-default">
+ <interceptors>
+<!-- 管理员登陆拦截器 -->
+<interceptor name="logincheck" class="shop.interceptor.AdminLoginIntercept"/>
+<!-- 定义全局拦截器 -->
+<interceptor-stack name="globalStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="logincheck" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="globalStack" />
+		<!-- 定义全局results -->
+		<global-results>
+	    <result name="error">adminerror.jsp</result>
+		</global-results>
+    <action name="AdminLogin" class="shop.action.AdminLoginAction">
+        <result name="succeed">manage.jsp</result>
+        <interceptor-ref name="defaultStack">
+            </interceptor-ref>
+    </action>
+    <action name="OrderV" class="shop.action.OrderAction">
+        <result name="succeed" type="chain">AdminLogin</result>
+    </action>
+    <action name="UserV" class="shop.action.UserAction">
+        <result name="succeed">manage1.jsp</result>
+         <result name="turn" type="chain">UserV</result>
+        </action>
+        <action name="BookV" class="shop.action.BookAction">
+            <result name="succeed">manage3.jsp</result>
+             <result name="turn" type="chain">BookV</result>
+        </action>
+    </package>
+</struts>    

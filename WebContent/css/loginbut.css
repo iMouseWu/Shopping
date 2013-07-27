@@ -1,0 +1,10 @@
+#login{
+    position:absolute;
+    left:1000px;
+    top:0px;
+    z-index:2;
+    }
+    #error{
+    position:absolute;
+    left:1100px;
+    top:47px;}
